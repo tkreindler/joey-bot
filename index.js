@@ -33,10 +33,16 @@ handle = (req, res) => {
 	}
 
 	// Send the request
-	const text = "Hello world";
+	const text = "";
 	const message = {
 		bot_id: BOT_ID,
-		text: text
+		text: text,
+		attachments : [
+			{
+			  "type"  : "image",
+			  "url"   : "https://i.imgur.com/0XB75VS.jpg"
+			}
+		]
 	};
 
 	const options = {
