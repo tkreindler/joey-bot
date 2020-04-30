@@ -4,19 +4,11 @@ const request = require('request')
 
 const PORT = parseInt(process.env.PORT) || 5000
 const BOT_ID = process.env.BOT_ID
-const ROOM_ID = process.env.ROOM_ID
-const ACCESS_TOKEN = process.env.ACCESS_TOKEN
 
 if (!BOT_ID) {
 	console.log("Missing BOT_ID environment variable.");
 }
-if (!ROOM_ID) {
-	console.log("Missing ROOM_ID environment variable.");
-}
-if (!ACCESS_TOKEN) {
-	console.log("Missing ACCESS_TOKEN environment variable.");
-}
-if (!BOT_ID || !ROOM_ID || !ACCESS_TOKEN) {
+if (!BOT_ID) {
 	process.exit(1);
 }
 
