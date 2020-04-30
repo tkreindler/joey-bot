@@ -1,9 +1,10 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const request = require('request')
+const express = require('express');
+const bodyParser = require('body-parser');
+const request = require('request');
+const fs = require('fs');
 
-const PORT = parseInt(process.env.PORT) || 5000
-const BOT_ID = process.env.BOT_ID
+const PORT = parseInt(process.env.PORT) || 5000;
+const BOT_ID = process.env.BOT_ID;
 
 if (!BOT_ID) {
 	console.log("Missing BOT_ID environment variable.");
@@ -11,6 +12,8 @@ if (!BOT_ID) {
 if (!BOT_ID) {
 	process.exit(1);
 }
+
+const urls = fs.readFileSync('urls.txt', 'utf8').split("\n");
 
 // main express server
 const app = express();
@@ -34,13 +37,17 @@ handle = (req, res) => {
 
 	// Send the request
 	const text = "";
+
+	const uriNum = Math.floor(Math.random() * urls.length);
+	const uri = urls[uriNum];
+
 	const message = {
 		bot_id: BOT_ID,
 		text: text,
 		attachments : [
 			{
 			  "type"  : "image",
-			  "url"   : "https://i.imgur.com/0XB75VS.jpg"
+			  "url"   : uri
 			}
 		]
 	};
