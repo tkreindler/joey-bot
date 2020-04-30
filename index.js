@@ -1,6 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const https = require('https')
+const request = require('request')
 
 const PORT = parseInt(process.env.PORT) || 5000
 const BOT_ID = process.env.BOT_ID
@@ -40,40 +40,25 @@ handle = (req, res) => {
 		return;
 	}
 
-	const text = "";
+	// Send the request
+	const text = "Hello world";
 	const message = {
-		text,
-		BOT_ID,
-		attachments: [
-			{
-				"type": "image",
-				"url": "https://i.groupme.com/somethingsomething.large"
-			}
-		]
+		bot_id: BOT_ID,
+		text: text
 	};
 
-	// Send the request
-	const json = JSON.stringify(message);
-	const groupmeAPIOptions = {
-		agent: false,
-		host: "api.groupme.com",
-		path: "/v3/bots/post",
-		port: 443,
-		method: "POST",
+	const options = {
+		uri: 'https://api.groupme.com:443/v3/bots/post',
+		method: 'POST',
 		headers: {
-			"Content-Length": json.length,
 			"Content-Type": "application/json",
-			"X-Access-Token": ACCESS_TOKEN
-		}
+		},
+		json: message
 	};
-	const request = https.request(groupmeAPIOptions, response => {
-		let data = "";
-		response.on("data", chunk => (data += chunk));
-		response.on("end", () =>
-			console.log(`[GROUPME RESPONSE] ${response.statusCode} ${data}`)
-		);
+
+	request(options, (error, res, body) => {
+		console.log(error);
 	});
-	request.end(json);
 
 	res.status(200).json({status:"ok"})
 }
